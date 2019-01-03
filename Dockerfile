@@ -10,7 +10,7 @@ RUN rm -rf pages loader lib components styles types .babelrc .dockerignore .giti
 FROM node:8.15.0-alpine
 WORKDIR /usr/src
 ENV NODE_ENV="production"
-COPY --from=base /usr/src package.json yarn.lock /usr/src/
+COPY --from=base /usr/src/package.json /usr/src/yarn.lock /usr/src/
 RUN yarn --production
 COPY --from=base /usr/src .
 EXPOSE 3000
