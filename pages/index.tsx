@@ -49,7 +49,7 @@ action Y {
   needs = "Hello World"
   uses = "actions/npm"
   env = {
-    MY_NAME = "Mona"
+    MY_NAME = "Mona 2"
   }
   args = "\\"Hello world, I'm $MY_NAME!\\""
 }
