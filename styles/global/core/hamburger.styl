@@ -1,0 +1,71 @@
+$hamburger-layer-width = 18px
+$hamburger-layer-height = 2px
+$hamburger-layer-spacing = 4px
+$hamburger-layer-color = #fff
+
+.hamburger
+  position relative
+  display: inline-block
+  cursor: pointer
+  opacity: 1
+  width: 24px
+  height: (($hamburger-layer-height * 3) + ($hamburger-layer-spacing * 2))
+
+  &:hover
+    opacity: .8
+
+.hamburger-inner
+  display: block
+  top: 0
+  left: 0
+  right: 0
+  margin: auto
+
+  &,
+  &::before,
+  &::after
+    width: $hamburger-layer-width
+    height: $hamburger-layer-height
+    background-color: $text-base
+    position: absolute
+    transition-property: transform
+    transition-duration: 0.15s
+    transition-timing-function: ease
+
+  &::before,
+  &::after
+    content: ""
+    display: block
+
+  &::before
+    top: ($hamburger-layer-spacing + $hamburger-layer-height) * -1
+
+  &::after
+    bottom: ($hamburger-layer-spacing + $hamburger-layer-height) * -1
+
+
+.hamburger-slider
+  .hamburger-inner
+    top = $hamburger-layer-height / 2
+
+    &::before
+      top: $hamburger-layer-height + $hamburger-layer-spacing
+      transition-property: transform, opacity
+      transition-timing-function: ease
+      transition-duration: 0.15s
+
+    &::after
+      top: ($hamburger-layer-height * 2) + ($hamburger-layer-spacing * 2)
+
+  &.active
+    .hamburger-inner
+      $y-offset = $hamburger-layer-spacing + $hamburger-layer-height
+
+      transform: translate3d(0, $y-offset, 0) rotate(45deg)
+
+      &::before
+        transform: rotate(-45deg) translate3d($hamburger-layer-width / -7, $hamburger-layer-spacing * -1, 0)
+        opacity: 0
+
+      &::after
+        transform: translate3d(0, $y-offset * -2, 0) rotate(-90deg)

@@ -1,0 +1,105 @@
+.input
+  color: $text-base
+  font-family: $font-family-base
+  border-radius: $form-input-border-radius
+  border: 1px solid $form-input-border-color
+  font-size: 16px
+  padding: $form-input-padding
+  display: block
+  width: 100%
+  background: $form-input-bg;
+  height: 36px
+  box-shadow: none
+  appearance none
+
+  &:hover
+    border-color: darken($form-input-border-color, 10%)
+
+  &:focus,
+  &.focus
+    outline: none
+    border-color: $form-input-highlight
+    background-color: $form-input-focus-bg
+
+  &:disabled
+    background-color: #f6f6f6
+
+  &::placeholder
+    color: rgba(#000, .5)
+
+select.input
+  background: #fff url(/icons/arrow-down.svg) no-repeat right .75rem center
+  background-size: 20px 20px
+
+.input[type="checkbox"],
+.input[type="radio"],
+.inputCheckbox,
+.input-radio
+  appearance: none
+  -webkit-appearance: none
+  width: 20px
+  height: 20px
+  display: inline-block
+  border-width: 0
+  transition: background-color 0.1s ease-in-out, box-shadow 0.1s ease-in-out
+  box-shadow: inset 0 0 0 2px $form-input-border-color
+  cursor: pointer
+  vertical-align: -4px
+  border-radius: $form-input-border-radius
+
+  &:focus
+    outline: none
+
+  &:hover
+    box-shadow: inset 0 0 0 3px darken($form-input-border-color, 5%)
+
+  &:checked,
+  &.checked
+    box-shadow: inset 0 0 0 3px $form-check-color
+    background: $form-check-color
+    background-image: url('/icons/check.svg')
+    background-repeat: no-repeat
+    background-position: center
+
+.input[type="radio"],
+.input-radio
+  border-radius: 50%
+
+.inputFileWrapper
+  overflow hidden
+  position: relative
+
+  input[type="file"]
+    position: absolute
+    font-size: 1000px
+    left: auto
+    top: auto
+    right: 0
+    bottom: 0
+    opacity: 0
+    cursor: pointer
+    z-index: 4
+
+.checkbox-indicator
+  display: inline-block;
+  width: 18px
+  height: 18px
+  border: 1px solid #ccc
+  background: #fff
+  cursor: pointer
+  border-radius: 2px
+
+  &:focus
+    border-color: $color-primary
+    box-shadow: 0 0 8px $color-primary
+
+input:checked + .checkbox-indicator
+  background: $color-primary
+  background-image: url('/icons/check.svg')
+  background-repeat: no-repeat
+  background-position: center
+  border-color: $color-primary
+
+textarea.input
+  height: auto
+  min-height: 36px

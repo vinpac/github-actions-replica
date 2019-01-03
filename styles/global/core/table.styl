@@ -1,0 +1,119 @@
+.table
+  width: 100%
+  max-width: 100%
+  border-spacing: 0
+  border-collapse: inherit
+  background: $table-bg
+  color: $table-text-color
+
+  td,
+  th
+    padding: .75rem
+    border-style: solid
+    border-color: $table-border-color
+    border-width: 1px 0 0 1px
+
+  th
+    font-size: 14px
+    padding: 6px 12px
+    font-weight: $font-weight-medium
+    border-bottom-width: 1px
+
+  tr td:last-child,
+  tr th:last-child
+    border-right-width: 1px
+
+  tbody:last-child tr:last-child
+    td
+      border-bottom-width: 1px
+
+  thead + tbody tr:first-child td
+    border-top-width: 0
+
+
+.table--radius
+  tbody:first-child tr:first-child
+    td:first-child
+      border-top-left-radius: $table-border-radius
+
+    td:last-child
+      border-top-right-radius: $table-border-radius
+
+  thead:first-child tr:first-child
+    th:first-child
+      border-top-left-radius: $table-border-radius
+
+    th:last-child
+      border-top-right-radius: $table-border-radius
+
+  thead + tbody
+    tr:first-child
+      td
+        border-radius: 0
+
+  tbody:last-child tr:last-child
+    td:first-child
+      border-bottom-left-radius: $table-border-radius
+
+    td:last-child
+      border-bottom-right-radius: $table-border-radius
+
+.tableColumn__sort
+  user-select: none
+
+  .tableColumn__icon
+    transition: transform .2s, color .3s
+    color: rgba(#FFF, 0)
+
+  .tableColumn__header
+    margin-right: 5px
+
+  &:hover
+    cursor: pointer
+    color: $table-sort-active
+
+    .table-col-icon
+      color: rgba(#000, .4)
+
+  &.tableColumn__sort--active
+    color: $table-sort-active
+
+    .tableColumn__icon
+      color: $table-sort-active
+
+  &.tableColumn__sort--inverted .tableColumn__icon
+    transform: rotate(180deg)
+
+.table--no-divider
+  td,
+  th
+    border-left-width: 0
+
+    &:first-child
+      border-left-width: 1px
+
+.table-default
+  thead th
+    box-shadow: 0 1px rgba(#000, .04)
+
+.table.borderless
+  thead:first-child tr:first-child th
+    border-top-width: 0
+
+  tr td,
+  tr th
+    border-left-width: 0
+    border-right-width: 0
+
+  tbody:last-child tr:last-child td
+    border-bottom-width: 0
+
+.table-info
+  width: 100%
+
+  td
+    border-width: 1px 0 0 0 !important
+    padding: .75rem 0
+
+  tr:last-child td
+    border-bottom-width: 1px !important

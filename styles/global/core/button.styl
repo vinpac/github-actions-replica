@@ -1,0 +1,106 @@
+@import '../../variables'
+
+.btn
+  cursor: pointer
+  display: inline-block
+  font-weight: $btn-font-weight
+  text-align: center
+  vertical-align: middle
+  user-select: none
+  border: $btn-border-width solid transparent
+  transition: box-shadow .1s ease-in-out
+  button-size($btn-padding-y, $btn-padding-x, $font-size-base, $btn-line-height, $btn-border-radius)
+
+  media-breakpoint-up(md)
+    white-space: nowrap
+
+  // Share hover and focus styles
+  &:hover,
+  &:focus
+    text-decoration: none
+
+  &:focus,
+  &.focus
+    outline: 0
+    box-shadow: 0 0 0 3px rgba(#000, 0.15)
+
+  // Disabled comes first so active can properly restyle
+  &.disabled,
+  &:disabled
+    cursor: auto
+    opacity: .65
+    box-shadow: none
+
+  &:active,
+  &.active
+    background-image: none
+
+// Future-proof disabling of clicks on `<a>` elements
+a.btn.disabled,
+fieldset[disabled] a.btn
+  pointer-events: none
+
+// Make a button look and behave like a link
+.btn-link
+  font-weight: $font-weight-normal
+  color: $link-color
+  border-radius: 0
+
+  &,
+  &:active,
+  &.active,
+  &:disabled
+    background-color: transparent
+    box-shadow: none
+
+  &,
+  &:focus,
+  &:active
+    border-color: transparent
+
+  &:hover
+    border-color: transparent
+
+  &:hover,
+  &:focus
+    color: $link-hover-color
+    text-decoration: $link-hover-decoration
+    background-color: transparent
+
+  &:disabled
+    color: $btn-link-disabled-color
+
+    &:hover,
+    &:focus
+      text-decoration: none
+
+.btn--mute:disabled
+  color: #bcbcbc !important
+  background: #ebebeb !important
+  border-color: #ebebeb !important
+  opacity: 1 !important
+
+.btn--strong
+  border-color: rgba(#000, .16) !important
+  background-image: linear-gradient(0deg, rgba(#000, .02), rgba(#000, .008)) !important
+
+.btn--block
+  display: block !important
+  width: 100% !important
+
+.btn-plain,
+.btn-plain-text
+  cursor: pointer
+  padding: 0
+  border: 0
+  background: none
+
+  &:focus
+    outline: none
+
+.btn-plain-text
+  font-weight: normal
+  line-height: $line-height-base
+
+  &:focus
+    box-shadow: none

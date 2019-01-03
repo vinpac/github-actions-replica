@@ -1,0 +1,85 @@
+// Colors
+text-variant('.tc-base', $text-base)
+text-variant('.tc-white', #fff)
+text-variant('.tc-link', $link-color)
+text-variant('.tc-success', $color-success)
+text-variant('.tc-error', $color-error)
+text-variant('.tc-light', rgba(white, 0.8))
+text-variant('.tc-muted', $color-muted)
+text-variant('.tc-muted-dark', $color-muted-dark)
+
+.tc-white
+  text-variant('.tc-muted', rgba(#fff, .5))
+
+// Sizes
+.ts-tiny
+  font-size: .75rem !important
+
+.ts-small
+  font-size: .875rem !important
+
+.ts-normal
+  font-size: 1rem !important
+
+.ts-medium
+  font-size: 1.125rem !important
+
+.ts-large
+  font-size: 1.25rem !important
+
+// Align
+for $breakpoint in $grid-breakpoints
+  +media-breakpoint-up($breakpoint)
+    $infix = breakpoint-infix($breakpoint, $grid-breakpoints)
+
+    .ta{$infix}-left
+      text-align: left !important
+
+    .ta{$infix}-center
+      text-align: center !important
+
+    .ta{$infix}-right
+      text-align: right !important
+
+.tl-base
+  line-height: 1.5
+
+// Transformation ---------------
+.tt-lower
+  text-transform: lowercase !important
+
+.tt-upper
+  text-transform: uppercase !important
+
+// Weight and italics ----------
+.tw-light
+  font-weight: $font-weight-light !important
+
+.tw-normal
+  font-weight: $font-weight-normal !important
+
+.tw-medium
+  font-weight: $font-weight-medium !important
+
+.tw-bold
+  font-weight: $font-weight-bold !important
+
+.t-italic
+  font-style: italic !important
+
+// Heading
+.heading-1
+  font-size: 4rem
+
+// Truncate
+.text-truncate
+  text-truncate()
+
+.td-underline
+  text-decoration: underline
+
+.td-hover-underline:hover
+  text-decoration: underline
+
+.text-nowrap
+  white-space: nowrap

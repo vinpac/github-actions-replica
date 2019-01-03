@@ -1,0 +1,41 @@
+.fancyScrollbar
+  &::-webkit-scrollbar
+    height: 9px
+    width: 9px
+
+  &::-webkit-scrollbar-button:end:increment,
+  &::-webkit-scrollbar-button:start:decrement
+    background: 0 0
+    display: none
+
+  &::-webkit-scrollbar-track-piece
+    background: rgba(#000, 0.1)
+
+  &::-webkit-scrollbar-track-piece:vertical:start
+    border-radius: 5px 5px 0 0
+    margin-top: 0.5rem
+
+  &::-webkit-scrollbar-track-piece:vertical:end
+    border-radius: 0 0 5px 5px
+    margin-bottom: 0.5rem
+
+  &::-webkit-scrollbar-track-piece:horizontal:start
+    border-radius: 5px 0 0 5px
+
+  &::-webkit-scrollbar-track-piece:horizontal:end
+    border-radius: 0 5px 5px 0
+
+  &::-webkit-scrollbar-thumb:horizontal,
+  &::-webkit-scrollbar-thumb:vertical
+    background: rgba(#000, 0.2)
+    border-radius: 5px
+    display: block
+    height: 50px
+
+.fancyScroolbar--light
+  &::-webkit-scrollbar-track-piece
+    background: rgba(#fff, 0.1)
+
+  &::-webkit-scrollbar-thumb:horizontal,
+  &::-webkit-scrollbar-thumb:vertical
+    background: rgba(#fff, 0.3)

@@ -1,0 +1,17 @@
+background-variant(
+  $selector,
+  $background,
+  $background-hover = darken($background, 3%),
+  $background-active = darken($background, 6%)
+)
+  {$selector}
+    background: $background !important
+
+    &.action:hover,
+    &.action:focus
+      cursor: pointer
+      background: $background-hover !important
+
+    &.action.active,
+    &.action:active
+      background: $background-active !important

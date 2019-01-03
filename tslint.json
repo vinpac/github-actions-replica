@@ -1,0 +1,14 @@
+{
+  "defaultSeverity": "error",
+  "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
+  "rules": {
+    // We handle this manually
+    "interface-name": [true, "never-prefix"],
+    // These rules are super annoying in this project
+    "object-literal-sort-keys": false,
+    "jsx-no-lambda": [false],
+    "no-console": [true, "log"],
+    "jsx-boolean-value": ["never"]
+  },
+  "rulesDirectory": []
+}

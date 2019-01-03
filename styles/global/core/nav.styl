@@ -1,0 +1,32 @@
+.nav
+  display: flex
+  flex-wrap: wrap
+  padding-left: 0
+  margin-bottom: 0
+  list-style: none
+
+.nav-link
+  display: block
+  padding: .375rem 1rem
+
+  &:hover,
+  &:focus
+    text-decoration: none
+
+  &.disabled
+    color: rgba(#000, .2)
+
+.nav-fill
+  .nav-item
+    flex: 1 1 auto
+    text-align: center
+
+.nav-justified
+  .nav-item
+    flex-basis: 0
+    flex-grow: 1
+    text-align: center
+
+.nav-size-1
+  .nav-link
+    padding: .1rem 0

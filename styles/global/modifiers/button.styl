@@ -1,0 +1,87 @@
+.btn-primary
+  button-variant($color-primary)
+
+.btn-outline-primary
+  button-outline-variant($color-primary)
+
+
+.btn-muted-dark
+  button-variant($color-muted-dark)
+
+.btn-error
+  button-variant($color-error)
+
+.btn-success
+  button-variant($color-success)
+
+.btn-white
+  button-variant(#fff, $text-base, $background, #ddd)
+
+.btn-default
+  border-color: rgba(27,31,35,0.2)
+  color: $text-base
+  background:#eff3f6 linear-gradient(-180deg, #fafbfc 0%, #eff3f6 90%)
+
+  &:hover,
+  &:focus
+    color: $text-base
+    background-color: #e6ebf1
+    background-image: linear-gradient(-180deg, #f0f3f6 0%, #e6ebf1 90%)
+    background-position: -.5em
+    border-color: rgba(27,31,35,0.35)
+
+// Outline
+.btn-outline-muted
+  button-outline-variant($color-muted)
+
+.btn-outline-muted-dark
+    button-outline-variant(
+      $color-muted-dark
+    )
+
+.btn-twitter
+  button-variant(#1DA1F2)
+
+.btn-outline-white
+  button-outline-variant(#fff)
+
+.btn-text
+  button-text-variant($text-base)
+
+.btn-text-white
+  button-text-variant(#fff)
+
+.btn-text-muted-dark
+  button-text-variant($color-muted-dark)
+
+// Sizes
+.btn--size-4
+  font-size: 20px
+  padding: .7rem 1rem
+  height: 48px
+
+.btn--size-3
+  font-size: $font-size-large
+  padding: .782rem 1rem
+
+.btn--size-3
+  font-size: $font-size-medium
+  padding: .625rem .9375rem
+
+.btn--size-2
+  font-size: $font-size-small
+  padding: 0.438rem 0.5rem
+
+.btn--size-1
+  font-size: $font-size-small
+  padding: .313rem .5rem
+
+.btn--size-0
+  font-size: $font-size-small
+  padding: .2rem .4rem
+  height: 24px
+
+.btn--size-editor
+  font-size: $font-size-small
+  padding: .313rem .5rem
+  height: 30px

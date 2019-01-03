@@ -1,0 +1,13 @@
+*
+!components
+!lib
+!pages
+!styles
+!types
+!loader
+!static
+!*.json
+!*.js
+!.babelrc
+!yarn.lock
+!package.lock

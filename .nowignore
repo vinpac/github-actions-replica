@@ -1,0 +1,4 @@
+.nowignore
+static/.dist
+.next
+.dist

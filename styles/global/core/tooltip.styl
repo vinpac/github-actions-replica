@@ -1,0 +1,34 @@
+.tooltiped
+  position: relative
+
+  .tooltip
+    display: none
+
+.tooltiped-hover:hover
+  .tooltip
+    display: block
+
+.tooltip
+  position: absolute
+  bottom: -34px
+  height: 28px
+  font-size: 13px
+  color: #fff
+  padding: 4px 10px
+  background: #334
+  z-index: 1000
+  border-radius: 2px
+  display: none
+  right: 0
+
+  &::after
+    content: ''
+    border-width: 0 6px 6px
+    border-color: #334 rgba(0, 0, 0, 0)
+    border-style: solid
+    width: 0
+    height: 0
+    position: absolute
+    top: -6px
+    right: 10px
+    display: block

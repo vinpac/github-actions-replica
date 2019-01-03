@@ -1,0 +1,103 @@
+button-box-shadow($color, $force = false)
+  if $force
+    box-shadow: 0 0 0 3px $color
+  else
+    box-shadow: 0 0 0 3px rgba($color, .5)
+
+button-variant($background, $color = #fff, $border = $background, $focus-box-shadow = $border)
+  $active-background = darken($background, 5%)
+  $active-border = darken($border, 8%)
+
+  color: $color
+  background-color: $background
+  border-color: $border
+
+  // Hover and focus styles are shared
+  &:hover
+    color: $color
+    background-color: $active-background
+    border-color: $active-border
+
+
+  &:focus,
+  &.focus
+    // Avoid using mixin so we can pass custom focus shadow properly
+    button-box-shadow($focus-box-shadow)
+
+
+  // Disabled comes first so active can properly restyle
+  &.disabled,
+  &:disabled
+    background-color: $background
+    border-color: $border
+
+
+  &:active,
+  &.active,
+  .show > &.dropdown-toggle
+    color: $color
+    background-color: darken($active-background, 12%)
+    background-image: none // Remove the gradient for the pressed/active state
+    border-color: $active-border
+
+
+button-outline-variant($color, $color-hover = $color, $border-color = $color)
+  color: $color
+  background-color: transparent
+  background-image: none
+  border-color: $border-color
+
+  &:hover
+    color: $color-hover
+    border-color: darken($border-color, 10%)
+    background: rgba($color, .1)
+
+
+  &:focus,
+  &.focus
+    border-color: darken($border-color, 16%)
+    box-shadow: 0 0 0 3px rgba($color, .3)
+
+
+  &.disabled,
+  &:disabled
+    color: $color
+    background-color: transparent
+
+
+  &:active,
+  &.active,
+  .show > &.dropdown-toggle
+    color: $color-hover
+
+
+button-text-variant($color)
+  background: none
+  color: $color
+
+  &:hover,
+  &:focus
+    color: $color
+    text-decoration: none
+
+
+  &:hover,
+  &:focus
+    background: rgba($color, 0.1)
+
+
+  &:active
+    background: rgba($color, 0.15)
+
+
+  &:focus,
+  &.focus
+    box-shadow: none
+
+
+// Button sizes
+button-size($padding-y, $padding-x, $font-size, $line-height, $border-radius)
+  padding: $padding-y $padding-x
+  font-size: $font-size
+  line-height: $line-height
+  border-radius: $border-radius

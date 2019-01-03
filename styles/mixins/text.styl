@@ -1,0 +1,13 @@
+text-variant($selector, $color)
+  {$selector}
+    &,
+    &:hover
+      color: $color !important
+
+    a{$selector}:hover
+      text-decoration: underline
+
+text-truncate()
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
