@@ -22,7 +22,7 @@ action "Hello World" {
   needs = "New workflow"
   uses = "actions/npm"
   env = {
-    MY_NAME = "Mona"
+    MY_NAME = "Mona AHAH"
   }
   args = "\\"Hello world, I'm $MY_NAME!\\""
 }
