@@ -4,14 +4,15 @@ COPY package.json yarn.lock /usr/src/
 RUN yarn install
 COPY . .
 RUN yarn build
-RUN rm -rf pages loader lib components styles types .babelrc .dockerignore .gitignore gulpfile.js now.json tslint.json
 
 
 FROM node:8.15.0-alpine
 WORKDIR /usr/src
+COPY --from=base /usr/src/package.json /usr/src/yarn.lock ./
 ENV NODE_ENV="production"
-COPY --from=base /usr/src/package.json /usr/src/yarn.lock /usr/src/
 RUN yarn --production
-COPY --from=base /usr/src .
+COPY --from=base /usr/src/next.config.js .
+COPY --from=base /usr/src/.next ./.next
+COPY --from=base /usr/src/static ./static
 EXPOSE 3000
 CMD ["npm", "start"]

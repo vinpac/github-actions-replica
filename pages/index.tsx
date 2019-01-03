@@ -29,11 +29,11 @@ action "Hello World" {
 
 action X {
   needs = B
-  uses = "actions/npm"
+  uses = "actions/now"
   env = {
     MY_NAME = "Mona 4"
   }
-  args = "\\"Hello world 2, I'm $MY_NAME!\\""
+  args = "\\"Hello , I'm $MY_NAME!\\""
 }
 
 action B {
