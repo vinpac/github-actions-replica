@@ -20,7 +20,7 @@ workflow "New workflow" {
 
 action "Hello World" {
   needs = "New workflow"
-  uses = "actions/now"
+  uses = "actions/npm"
   env = {
     MY_NAME = "Mona"
   }
