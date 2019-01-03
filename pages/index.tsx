@@ -47,7 +47,7 @@ action B {
 
 action Y {
   needs = "Hello World"
-  uses = "actions/npm"
+  uses = "actions/now"
   env = {
     MY_NAME = "Mona 2"
   }
