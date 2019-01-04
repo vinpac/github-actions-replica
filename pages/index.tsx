@@ -24,7 +24,7 @@ action "Hello World" {
   env = {
     MY_NAME = "Mona AHAH"
   }
-  args = "\\"Hello world, I'm $MY_NAME!\\""
+  args = "\\"Hello, I'm $MY_NAME!\\""
 }
 
 action X {
