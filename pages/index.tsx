@@ -29,9 +29,9 @@ action "Hello World" {
 
 action X {
   needs = B
-  uses = "actions/now"
+  uses = "actions/npm"
   env = {
-    MY_NAME = "Mona 7911"
+    MY_NAME = "Mona 111111"
   }
   args = "\\"Hello , I'm $MY_NAME!\\""
 }
