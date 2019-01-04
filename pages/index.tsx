@@ -40,7 +40,7 @@ action B {
   needs = "Hello World"
   uses = "actions/now"
   env = {
-    MY_NAME = "Mona"
+    MY_NAME = "Monalisa"
   }
   args = "\\"Hello world, I'm $MY_NAME!\\""
 }
