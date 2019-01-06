@@ -13,7 +13,6 @@ steps:
   # Generate a kubeconfig file
   - name: 'gcr.io/cloud-builders/gcloud'
     env:
-      - 'CLOUDSDK_CONTAINER_USE_CLIENT_CERTIFICATE=True'
       - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
       - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
       - 'KUBECONFIG=/kube/config'
@@ -25,7 +24,7 @@ steps:
         PROJECT=$$(gcloud config get-value core/project)
         ZONE=$$(gcloud config get-value compute/zone)
 
-        gcloud config set container/use_client_certificate True
+        gcloud services enable container.googleapis.com
         gcloud container clusters get-credentials "$${CLUSTER}" \
           --project "$${PROJECT}" \
           --zone "$${ZONE}"
