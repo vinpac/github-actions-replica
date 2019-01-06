@@ -93,6 +93,10 @@ steps:
           -p "$(cat patch.yaml)" \
           > ${_DEPLOYMENT_FILE}.yaml
         mv ${_DEPLOYMENT_FILE}.yaml ${_REPO}/${_DEPLOYMENT_FILE}.yaml
+
+        # Apply changes
+        kubectl apply -f ${_DEPLOYMENT_FILE}.yaml
+
         # Change to the ${_REPO} directory
         # commit the local changes, then issue a pull request.
         cd ${_REPO}
