@@ -20,16 +20,16 @@ workflow "New workflow" {
 
 action "Hello World" {
   needs = "New workflow"
-  uses = "actions/now"
+  uses = "actions/npm"
   env = {
-    MY_NAME = "Mona AHAH"
+    MY_NAME = "Mona HUASHUS"
   }
   args = "\\"Hello, I'm $MY_NAME!\\""
 }
 
 action X {
   needs = B
-  uses = "actions/now"
+  uses = "actions/npm"
   env = {
     MY_NAME = "Mon123123"
   }
@@ -38,16 +38,16 @@ action X {
 
 action B {
   needs = "Hello World"
-  uses = "actions/now"
+  uses = "actions/npm"
   env = {
     MY_NAME = "Monalisa"
   }
-  args = "\\"Hello world, I'm $MY_NAME!\\""
+  args = "\\"Hello, I'm $MY_NAME!\\""
 }
 
 action Yzup {
   needs = "Hello World"
-  uses = "actions/now"
+  uses = "actions/npm"
   env = {
     MY_NAME = "Mona 2"
   }
