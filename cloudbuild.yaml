@@ -24,7 +24,6 @@ steps:
         PROJECT=$$(gcloud config get-value core/project)
         ZONE=$$(gcloud config get-value compute/zone)
 
-        gcloud services enable container.googleapis.com
         gcloud container clusters get-credentials "$${CLUSTER}" \
           --project "$${PROJECT}" \
           --zone "$${ZONE}"
