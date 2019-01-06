@@ -10,6 +10,13 @@
 #
 
 steps:
+  # Build the astroturf container image.
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/${PROJECT_ID}/astroturf:${COMMIT_SHA}'
+      - '.'
   # Generate a kubeconfig file
   - name: 'gcr.io/cloud-builders/gcloud'
     env:
@@ -27,9 +34,6 @@ steps:
         gcloud container clusters get-credentials "$${CLUSTER}" \
           --project "$${PROJECT}" \
           --zone "$${ZONE}"
-    volumes:
-      - name: 'kube'
-        path: /kube
 
   # Retrieve and decrypt the GitHub Hub configuration.
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -37,7 +41,7 @@ steps:
     args:
       - '-c'
       - |
-        gsutil cp gs://${PROJECT_ID}-astroturf-configs/hub.enc hub.enc
+        gsutil cp gs://${PROJECT_ID}-pipeline-configs/hub.enc hub.enc
         gcloud kms decrypt \
           --ciphertext-file=hub.enc \
           --plaintext-file=/config/hub \
