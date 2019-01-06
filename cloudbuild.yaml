@@ -22,7 +22,7 @@ steps:
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=${_CLOUDSDK_COMPUTE_ZONE}'
       - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLOUDSDK_CONTAINER_CLUSTER}'
-      - 'KUBECONFIG=/kube/config'
+      - 'KUBECONFIG=/config/kube'
     entrypoint: 'sh'
     args:
       - '-c'
@@ -34,6 +34,9 @@ steps:
         gcloud container clusters get-credentials "$${CLUSTER}" \
           --project "$${PROJECT}" \
           --zone "$${ZONE}"
+    volumes:
+      - name: 'config'
+        path: /config
 
   # Retrieve and decrypt the GitHub Hub configuration.
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -52,38 +55,24 @@ steps:
       - name: 'config'
         path: /config
 
-  # Update the Kubernetes deployment config.
-  - name: 'gcr.io/cloud-builders/gcloud'
-    env:
-      - 'KUBECONFIG=/kube/config'
-    entrypoint: 'sh'
-    args:
-      - '-c'
-      - |
-        kubectl apply --recursive -f kubernetes
-    volumes:
-      - name: 'kube'
-        path: /kube
-
   # Create a pull request on the ${_GITHUB_USERNAME}/${_REPO} repo
   # to update the astroturf deployment configuration.
   - name: 'gcr.io/hightowerlabs/hub'
     env:
       - 'HUB_CONFIG=/config/hub'
-      - 'KUBECONFIG=/kube/config'
+      - 'KUBECONFIG=/config/kube'
     entrypoint: 'sh'
     args:
       - '-c'
       - |
         # Extract the container image from the qa astroturf deployment configuration file.
-        CONTAINER_IMAGE=$(kubectl apply --dry-run \
-           -f ${_DEPLOYMENT_FILE}.yaml \
-           -o jsonpath='{.spec.template.spec.containers[?(@.name == "astroturf")].image}')
         ACTIVE_ACCOUNT=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
+
         hub config --global credential.https://github.com.helper /usr/local/bin/hub-credential-helper
         hub config --global hub.protocol https
         hub config --global user.email "$${ACTIVE_ACCOUNT}"
         hub config --global user.name "Google Container Builder"
+
         # Clone the ${_GITHUB_USERNAME}/${_REPO} repo
         # and patch the astroturf deployment container image.
         hub clone "https://github.com/${_GITHUB_USERNAME}/${_REPO}.git"
@@ -134,5 +123,3 @@ steps:
     volumes:
       - name: 'config'
         path: /config
-      - name: 'kube'
-        path: /kube
