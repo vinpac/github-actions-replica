@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: astroturf
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        name: astroturf
+    spec:
+      containers:
+        - name: astroturf
+          image: gcr.io/beimo-879dc/astroturf:3.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000

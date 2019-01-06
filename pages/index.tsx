@@ -29,7 +29,7 @@ action "Hello World" {
 
 action X {
   needs = B
-  uses = "actions/now"
+  uses = "actions/npm"
   env = {
     MY_NAME = "Mon123123"
   }
@@ -38,7 +38,7 @@ action X {
 
 action B {
   needs = "Hello World"
-  uses = "actions/now"
+  uses = "actions/npm"
   env = {
     MY_NAME = "Monalisa"
   }
@@ -47,7 +47,7 @@ action B {
 
 action Y {
   needs = "Hello World"
-  uses = "actions/now"
+  uses = "actions/npm"
   env = {
     MY_NAME = "Mona 2"
   }
