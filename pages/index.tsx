@@ -20,7 +20,7 @@ workflow "New workflow" {
 
 action "Hello World" {
   needs = "New workflow"
-  uses = "actions/npm"
+  uses = "actions/now"
   env = {
     MY_NAME = "Mona AHAH"
   }
@@ -29,7 +29,7 @@ action "Hello World" {
 
 action X {
   needs = B
-  uses = "actions/npm"
+  uses = "actions/now"
   env = {
     MY_NAME = "Mon123123"
   }
@@ -38,7 +38,7 @@ action X {
 
 action B {
   needs = "Hello World"
-  uses = "actions/npm"
+  uses = "actions/now"
   env = {
     MY_NAME = "Monalisa"
   }
@@ -47,7 +47,7 @@ action B {
 
 action Y {
   needs = "Hello World"
-  uses = "actions/npm"
+  uses = "actions/now"
   env = {
     MY_NAME = "Mona 2"
   }
