@@ -65,6 +65,7 @@ steps:
     args:
       - '-c'
       - |
+        CONTAINER_IMAGE="gcr.io/${PROJECT_ID}/astroturf:${COMMIT_SHA}"
         # Extract the container image from the qa astroturf deployment configuration file.
         ACTIVE_ACCOUNT=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
 
