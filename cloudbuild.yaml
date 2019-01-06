@@ -5,6 +5,8 @@
 #   _GITHUB_USERNAME
 #   _KMS_KEY
 #   _KMS_KEYRING
+#   _REPO
+#   _DEPLOYMENT_FILE
 #
 
 steps:
@@ -35,8 +37,7 @@ steps:
     args:
       - '-c'
       - |
-        gsutil cp gs://${PROJECT_ID}-deployment-configs/hub.enc hub.enc
-
+        gsutil cp gs://${PROJECT_ID}-astroturf-configs/hub.enc hub.enc
         gcloud kms decrypt \
           --ciphertext-file=hub.enc \
           --plaintext-file=/config/hub \
@@ -60,8 +61,8 @@ steps:
       - name: 'kube'
         path: /kube
 
-  # Create a pull request on the ${_GITHUB_USERNAME}/github-actions-replica repo
-  # to update the deployment deployment configuration.
+  # Create a pull request on the ${_GITHUB_USERNAME}/${_REPO} repo
+  # to update the astroturf deployment configuration.
   - name: 'gcr.io/hightowerlabs/hub'
     env:
       - 'HUB_CONFIG=/config/hub'
@@ -70,23 +71,21 @@ steps:
     args:
       - '-c'
       - |
-        # Extract the container image from the qa deployment deployment configuration file.
+        # Extract the container image from the qa astroturf deployment configuration file.
         CONTAINER_IMAGE=$(kubectl apply --dry-run \
-           -f deployment.yaml \
-           -o jsonpath='{.spec.template.spec.containers[?(@.name == "deployment")].image}')
-
+           -f ${_DEPLOYMENT_FILE}.yaml \
+           -o jsonpath='{.spec.template.spec.containers[?(@.name == "astroturf")].image}')
         ACTIVE_ACCOUNT=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
-
         hub config --global credential.https://github.com.helper /usr/local/bin/hub-credential-helper
         hub config --global hub.protocol https
         hub config --global user.email "$${ACTIVE_ACCOUNT}"
         hub config --global user.name "Google Container Builder"
+        # Clone the ${_GITHUB_USERNAME}/${_REPO} repo
+        # and patch the astroturf deployment container image.
+        hub clone "https://github.com/${_GITHUB_USERNAME}/${_REPO}.git"
 
-
-        # Clone the ${_GITHUB_USERNAME}/github-actions-replica repo
-        # and patch the deployment deployment container image.
-        hub clone "https://github.com/vinpac/github-actions-replica.git"
-
+        # Create deployment folder if needed
+        mkdir -p "$(_DEPLOYMENT_FILE/*)"
         cat <<EOF > patch.yaml
         spec:
           template:
@@ -95,26 +94,21 @@ steps:
                 - name: astroturf
                   image: $${CONTAINER_IMAGE}
         EOF
-
         kubectl patch --local -o yaml \
-          -f github-actions-replica/deployment.yaml \
+          -f ${_REPO}/${_DEPLOYMENT_FILE}.yaml \
           -p "$(cat patch.yaml)" \
-          > deployment.yaml
-
-        mv deployment.yaml github-actions-replica/deployment.yaml
-
-        # Change to the github-actions-replica directory
+          > ${_DEPLOYMENT_FILE}.yaml
+        mv ${_DEPLOYMENT_FILE}.yaml ${_REPO}/${_DEPLOYMENT_FILE}.yaml
+        # Change to the ${_REPO} directory
         # commit the local changes, then issue a pull request.
-        cd github-actions-replica
-
+        cd ${_REPO}
         git checkout -b update-deployment-${BUILD_ID}
-
-        hub add deployment.yaml
+        hub add ${_DEPLOYMENT_FILE}.yaml
 
         hub commit -F- <<EOF
-        Update the deployment deployment
+        Update the astroturf deployment
 
-        This commit updates the deployment deployment container image to:
+        This commit updates the astroturf deployment container image to:
 
             $${CONTAINER_IMAGE}
 
@@ -123,9 +117,9 @@ steps:
 
         hub push origin update-deployment-${BUILD_ID}
 
-        # Create a pull request to the ${_GITHUB_USERNAME}/github-actions-replica repo.
+        # Create a pull request to the ${_GITHUB_USERNAME}/${_REPO} repo.
         hub pull-request -F- <<EOF
-        Update the asturoturf deployment
+        Update the astroturf deployment
 
         This commit updates the astroturf deployment container image to:
 
