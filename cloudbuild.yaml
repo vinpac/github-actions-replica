@@ -123,3 +123,5 @@ steps:
     volumes:
       - name: 'config'
         path: /config
+images:
+  - 'gcr.io/${PROJECT_ID}/astroturf:${COMMIT_SHA}'

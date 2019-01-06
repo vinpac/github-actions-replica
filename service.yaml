@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: astroturf
+spec:
+  selector:
+    app: astroturf
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000
+  type: LoadBalancer
