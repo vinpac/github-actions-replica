@@ -107,7 +107,6 @@ steps:
         # Change to the ${_REPO} directory
         # commit the local changes, then issue a pull request.
         cd ${_REPO}
-        git checkout -b update-deployment-${BUILD_ID}
         hub add ${_DEPLOYMENT_FILE}.yaml
 
         hub commit -F- <<EOF
@@ -120,18 +119,7 @@ steps:
         Build ID: ${BUILD_ID}
         EOF
 
-        hub push origin update-deployment-${BUILD_ID}
-
-        # Create a pull request to the ${_GITHUB_USERNAME}/${_REPO} repo.
-        hub pull-request -F- <<EOF
-        Update the astroturf deployment
-
-        This commit updates the astroturf deployment container image to:
-
-            $${CONTAINER_IMAGE}
-
-        Build ID: ${BUILD_ID}
-        EOF
+        hub push origin master
     volumes:
       - name: 'config'
         path: /config
