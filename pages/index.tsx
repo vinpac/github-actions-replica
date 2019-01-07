@@ -45,7 +45,7 @@ action B {
   args = "\\"Hello, I'm $MY_NAME!\\""
 }
 
-action Yzupappapap {
+action Y {
   needs = "Hello World"
   uses = "actions/npm"
   env = {

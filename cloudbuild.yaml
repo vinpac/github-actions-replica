@@ -28,6 +28,9 @@ steps:
       - '-t'
       - 'gcr.io/${PROJECT_ID}/astroturf:latest'
       - '.'
+      - '--cache-from'
+      - 'gcr.io/${PROJECT_ID}/astroturf:${COMMIT_SHA}'
+      - '.'
   # Generate a kubeconfig file
   - name: 'gcr.io/cloud-builders/gcloud'
     env:
