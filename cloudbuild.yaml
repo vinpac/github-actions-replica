@@ -13,10 +13,10 @@ steps:
   # Build the astroturf container image.
   - name: 'gcr.io/cloud-builders/docker'
     args:
-      - 'build'
-      - '-t'
-      - 'gcr.io/${PROJECT_ID}/astroturf:${COMMIT_SHA}'
-      - '.'
+      - |
+        build -t gcr.io/${PROJECT_ID}/astroturf:${COMMIT_SHA} . && \
+        build -t gcr.io/${PROJECT_ID}/astroturf:latest .
+
   # Generate a kubeconfig file
   - name: 'gcr.io/cloud-builders/gcloud'
     env:
@@ -95,7 +95,7 @@ steps:
         mv ${_DEPLOYMENT_FILE}.yaml ${_REPO}/${_DEPLOYMENT_FILE}.yaml
 
         # Apply changes
-        kubectl apply -f ${_DEPLOYMENT_FILE}.yaml
+        kubectl apply -f ${_REPO}/${_DEPLOYMENT_FILE}.yaml
 
         # Change to the ${_REPO} directory
         # commit the local changes, then issue a pull request.
@@ -130,3 +130,4 @@ steps:
         path: /config
 images:
   - 'gcr.io/${PROJECT_ID}/astroturf:${COMMIT_SHA}'
+  - 'gcr.io/${PROJECT_ID}/astroturf:latest'
