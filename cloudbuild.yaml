@@ -17,6 +17,7 @@ steps:
       - '-t'
       - 'gcr.io/${PROJECT_ID}/astroturf:${COMMIT_SHA}'
       - '.'
+      - '--cache-from=gcr.io/${PROJECT_ID}/astroturf:latest'
   # Tag as the latest image
   - name: 'gcr.io/cloud-builders/docker'
     args:
@@ -107,19 +108,19 @@ steps:
         # Change to the ${_REPO} directory
         # commit the local changes, then issue a pull request.
         cd ${_REPO}
-        hub add ${_DEPLOYMENT_FILE}.yaml
+        # hub add ${_DEPLOYMENT_FILE}.yaml
 
-        hub commit -F- <<EOF
-        Update the astroturf deployment
+        # hub commit -F- <<EOF
+        # Update the astroturf deployment
 
-        This commit updates the astroturf deployment container image to:
+        # This commit updates the astroturf deployment container image to:
 
-            $${CONTAINER_IMAGE}
+        #     $${CONTAINER_IMAGE}
 
-        Build ID: ${BUILD_ID}
-        EOF
+        # Build ID: ${BUILD_ID}
+        # EOF
 
-        hub push origin master
+        # hub push origin master
     volumes:
       - name: 'config'
         path: /config
