@@ -13,10 +13,17 @@ steps:
   # Build the astroturf container image.
   - name: 'gcr.io/cloud-builders/docker'
     args:
-      - |
-        build -t gcr.io/${PROJECT_ID}/astroturf:${COMMIT_SHA} . && \
-        build -t gcr.io/${PROJECT_ID}/astroturf:latest .
-
+      - 'build'
+      - '-t'
+      - 'gcr.io/${PROJECT_ID}/astroturf:${COMMIT_SHA}'
+      - '.'
+  # Tag as the latest image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/${PROJECT_ID}/astroturf:latest'
+      - '.'
   # Generate a kubeconfig file
   - name: 'gcr.io/cloud-builders/gcloud'
     env:
