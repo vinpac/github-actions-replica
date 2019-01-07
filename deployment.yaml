@@ -11,8 +11,8 @@ spec:
         name: astroturf
     spec:
       containers:
-        - image: gcr.io/beimo-879dc/astroturf:e4de5a7980a7161dc78368df2984fab3ce43c375
-          imagePullPolicy: IfNotPresent
-          name: astroturf
-          ports:
-            - containerPort: 3000
+      - image: gcr.io/beimo-879dc/astroturf:6c8ab29b5dbe603f7c1fda847bcc1b9db411a2b9
+        imagePullPolicy: IfNotPresent
+        name: astroturf
+        ports:
+        - containerPort: 3000
