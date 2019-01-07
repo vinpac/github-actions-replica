@@ -16,9 +16,9 @@ steps:
       - 'build'
       - '-t'
       - 'gcr.io/${PROJECT_ID}/astroturf:${COMMIT_SHA}'
-      - '.'
       - '--cache-from'
       - 'gcr.io/${PROJECT_ID}/astroturf:latest'
+      - '.'
   # Tag as the latest image
   - name: 'gcr.io/cloud-builders/docker'
     args:
