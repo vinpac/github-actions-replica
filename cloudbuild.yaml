@@ -27,7 +27,6 @@ steps:
       - 'build'
       - '-t'
       - 'gcr.io/${PROJECT_ID}/astroturf:latest'
-      - '.'
       - '--cache-from'
       - 'gcr.io/${PROJECT_ID}/astroturf:${COMMIT_SHA}'
       - '.'
