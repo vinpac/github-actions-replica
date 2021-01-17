@@ -1,7 +1,7 @@
-import { css } from 'astroturf'
-import has from 'has'
-import React, { useMemo, useReducer } from 'react'
-import { generateRandomId } from '~/lib/utils/string'
+import { css } from "astroturf";
+import has from "has";
+import React, { useMemo, useReducer } from "react";
+import { generateRandomId } from "~/lib/utils/string";
 import {
   Action,
   ActionNode,
@@ -9,17 +9,17 @@ import {
   Task,
   WorkflowDocument,
   WorkflowNodeKind,
-} from '~/lib/workflow'
-import WorkflowParserError from '~/lib/workflow/errors/WorkflowParserError'
-import { parseWorkflow } from '~/lib/workflow/parser'
+} from "~/lib/workflow";
+import WorkflowParserError from "~/lib/workflow/errors/WorkflowParserError";
+import { parseWorkflow } from "~/lib/workflow/parser";
 import transformWorkflowASTToDocument, {
   workflowDocumentToString,
-} from '~/lib/workflow/transformer'
-import { CARD_HEIGHT, CARD_WIDTH, MARGIN } from './constants'
-import { Position } from './constants'
-import WorkflowCodeEditor from './WorkflowCodeEditor'
-import WorkflowEditorHeader from './WorkflowEditorHeader'
-import WorkflowPreview from './WorkflowPreview'
+} from "~/lib/workflow/transformer";
+import { CARD_HEIGHT, CARD_WIDTH, MARGIN } from "./constants";
+import { Position } from "./constants";
+import WorkflowCodeEditor from "./WorkflowCodeEditor";
+import WorkflowEditorHeader from "./WorkflowEditorHeader";
+import WorkflowPreview from "./WorkflowPreview";
 
 const s = css`
   .container {
@@ -42,7 +42,7 @@ const s = css`
     right: 300px;
     top: var(--workflow-header-height);
     bottom: 0;
-    right: 300px;
+    right: 0;
     left: 0;
   }
 
@@ -58,7 +58,7 @@ const s = css`
     z-index: 10000;
     display: block;
   }
-`
+`;
 
 export enum WorkflowEditorPanel {
   Preview,
@@ -66,61 +66,61 @@ export enum WorkflowEditorPanel {
 }
 
 export interface WorkflowEditorState {
-  readonly readOnly?: boolean
-  readonly value: string
-  readonly document?: WorkflowDocument
-  readonly composerMouseOver?: boolean
-  readonly composerPosition?: Position
-  readonly focusedNodeId?: string
-  readonly newConnectionPos?: Position
-  readonly containerRef?: HTMLDivElement | null
-  readonly containerRect?: DOMRect | ClientRect
-  readonly running?: boolean
-  readonly currentReport?: RunReport
-  readonly panel: WorkflowEditorPanel
-  readonly parserError?: WorkflowParserError
+  readonly readOnly?: boolean;
+  readonly value: string;
+  readonly document?: WorkflowDocument;
+  readonly composerMouseOver?: boolean;
+  readonly composerPosition?: Position;
+  readonly focusedNodeId?: string;
+  readonly newConnectionPos?: Position;
+  readonly containerRef?: HTMLDivElement | null;
+  readonly containerRect?: DOMRect | ClientRect;
+  readonly running?: boolean;
+  readonly currentReport?: RunReport;
+  readonly panel: WorkflowEditorPanel;
+  readonly parserError?: WorkflowParserError;
 }
 
 const reducerMap: {
-  [type: string]: (state: WorkflowEditorState, action) => WorkflowEditorState
+  [type: string]: (state: WorkflowEditorState, action) => WorkflowEditorState;
 } = {
   CHANGE: (state, action) => {
-    const overrides = action.payload
+    const overrides = action.payload;
 
-    if (has(overrides, 'x')) {
-      overrides._x = overrides.x
+    if (has(overrides, "x")) {
+      overrides._x = overrides.x;
     }
 
-    if (has(overrides, 'y')) {
-      overrides._y = overrides.y
+    if (has(overrides, "y")) {
+      overrides._y = overrides.y;
     }
 
     if (!state.document) {
-      return state
+      return state;
     }
 
     if (!state.document.nodesMap[action.meta.id]) {
-      return state
+      return state;
     }
 
-    Object.assign(state.document.nodesMap[action.meta.id], overrides)
+    Object.assign(state.document.nodesMap[action.meta.id], overrides);
 
     return {
       ...state,
       document: {
         nodesMap: state.document.nodesMap,
-        nodes: state.document.nodes.map(node => {
+        nodes: state.document.nodes.map((node) => {
           if (node.id === action.meta.id) {
             return {
               ...node,
               ...overrides,
-            }
+            };
           }
 
-          return node
+          return node;
         }),
       },
-    }
+    };
   },
   SET_CONTAINER_REF: (state, action) => ({
     ...state,
@@ -128,64 +128,64 @@ const reducerMap: {
   }),
   NEW_CONNECTION: (state, action) => {
     if (!state.containerRef || !state.document) {
-      return state
+      return state;
     }
 
-    let { containerRect } = state
+    let { containerRect } = state;
 
     if (!containerRect) {
-      containerRect = state.containerRef.getBoundingClientRect()
+      containerRect = state.containerRef.getBoundingClientRect();
     }
 
-    const node = state.document.nodesMap[action.meta.id]
+    const node = state.document.nodesMap[action.meta.id];
     const composerPosition = {
       y: node.y + CARD_HEIGHT + 50,
       x: node.x,
-    }
+    };
 
     // If the node has children, position the next one next to them
     if (node.resolves.length) {
       const lastChild =
-        state.document.nodesMap[node.resolves[node.resolves.length - 1]]
-      composerPosition.x = lastChild.x + CARD_WIDTH + 50
-      composerPosition.y = lastChild.y
+        state.document.nodesMap[node.resolves[node.resolves.length - 1]];
+      composerPosition.x = lastChild.x + CARD_WIDTH + 50;
+      composerPosition.y = lastChild.y;
     }
 
     // Check if the new card intersects any existent other
-    let i = 0
-    let redo = false
+    let i = 0;
+    let redo = false;
     while (true) {
       if (i === state.document.nodes.length) {
         if (redo) {
-          i = 0
-          redo = false
+          i = 0;
+          redo = false;
         } else {
-          break
+          break;
         }
       }
 
-      const cNode = state.document.nodes[i]
+      const cNode = state.document.nodes[i];
 
       const intersectsX =
         composerPosition.x + CARD_WIDTH > cNode.x &&
-        composerPosition.x <= cNode.x + CARD_WIDTH
+        composerPosition.x <= cNode.x + CARD_WIDTH;
       const intersectsY =
         composerPosition.y + CARD_HEIGHT > cNode.y &&
-        composerPosition.y <= cNode.y + CARD_HEIGHT
+        composerPosition.y <= cNode.y + CARD_HEIGHT;
 
       if (intersectsX && intersectsY) {
-        redo = true
+        redo = true;
         if (intersectsX) {
-          composerPosition.x = cNode.x + CARD_WIDTH + 50
+          composerPosition.x = cNode.x + CARD_WIDTH + 50;
         }
 
         if (composerPosition.x > node.x + CARD_WIDTH * 2 + 100) {
-          composerPosition.y = cNode.y + CARD_HEIGHT + 50
-          composerPosition.x = node.x
+          composerPosition.y = cNode.y + CARD_HEIGHT + 50;
+          composerPosition.x = node.x;
         }
       }
 
-      i += 1
+      i += 1;
     }
 
     return {
@@ -206,7 +206,7 @@ const reducerMap: {
           containerRect.top +
           state.containerRef.scrollTop,
       },
-    }
+    };
   },
   FINISH_NEW_CONNECTION: (state, action) => {
     const {
@@ -214,23 +214,23 @@ const reducerMap: {
       focusedNodeId,
       composerMouseOver,
       composerPosition,
-    } = state
+    } = state;
 
     if (!document) {
-      return state
+      return state;
     }
 
     const {
       meta: { id: parentNodeId },
-    } = action
+    } = action;
     if (focusedNodeId && composerPosition && composerMouseOver) {
-      const id = generateRandomId()
-      const parentNode = document.nodesMap[parentNodeId]
+      const id = generateRandomId();
+      const parentNode = document.nodesMap[parentNodeId];
 
       // @ts-ignore
       const newNode: ActionNode = {
         kind: WorkflowNodeKind.Action,
-        uses: '',
+        uses: "",
         id,
         resolves: [],
         index: parentNode.index + 1,
@@ -239,11 +239,11 @@ const reducerMap: {
         props: {},
         x: composerPosition.x,
         y: composerPosition.y,
-      }
-      document.nodesMap[newNode.id] = newNode
+      };
+      document.nodesMap[newNode.id] = newNode;
       Object.assign(parentNode, {
         resolves: [...parentNode.resolves, newNode.id],
-      })
+      });
 
       return {
         ...state,
@@ -253,19 +253,19 @@ const reducerMap: {
         document: {
           ...document,
           nodes: [
-            ...document.nodes.map(node => {
+            ...document.nodes.map((node) => {
               if (node.id === parentNodeId) {
                 return {
                   ...parentNode,
-                }
+                };
               }
 
-              return node
+              return node;
             }),
             newNode,
           ],
         },
-      }
+      };
     }
 
     return {
@@ -273,7 +273,7 @@ const reducerMap: {
       composerPosition: state.composerPosition,
       focusedNodeId: undefined,
       newConnectionPos: undefined,
-    }
+    };
   },
   SET_COMPOSER_MOUSE_OVER: (state, action) => ({
     ...state,
@@ -289,15 +289,15 @@ const reducerMap: {
       readOnly: true,
       running: true,
       currentReport: action.payload,
-    }
+    };
   },
   ADD_TASK_TO_REPORT: (state, action) => {
     if (!state.currentReport) {
-      return state
+      return state;
     }
 
-    const { payload: task } = action
-    const tasks = state.currentReport.tasks
+    const { payload: task } = action;
+    const tasks = state.currentReport.tasks;
 
     return {
       ...state,
@@ -309,33 +309,33 @@ const reducerMap: {
           [task.nodeId]: task,
         },
       },
-    }
+    };
   },
   UPDATE_TASK: (state, action) => {
     if (!state.currentReport) {
-      return state
+      return state;
     }
 
     const {
       meta: { id },
       payload: overrides,
-    } = action
-    let updatedTask: Task | undefined
-    const tasks = state.currentReport.tasks.map(task => {
+    } = action;
+    let updatedTask: Task | undefined;
+    const tasks = state.currentReport.tasks.map((task) => {
       if (task.id === id) {
         updatedTask = {
           ...task,
           ...overrides,
-        } as Task
+        } as Task;
 
-        return updatedTask
+        return updatedTask;
       }
 
-      return task
-    })
+      return task;
+    });
     const map = updatedTask
       ? { ...state.currentReport.map, [updatedTask.nodeId]: updatedTask }
-      : state.currentReport.map
+      : state.currentReport.map;
 
     return {
       ...state,
@@ -344,7 +344,7 @@ const reducerMap: {
         tasks,
         map,
       },
-    }
+    };
   },
 
   SET_PANEL: (state, action) => {
@@ -355,13 +355,13 @@ const reducerMap: {
         value: state.document
           ? workflowDocumentToString(state.document)
           : state.value,
-      }
+      };
     }
 
     return {
       ...state,
       panel: action.payload,
-    }
+    };
   },
 
   // TODO: IMPROVE
@@ -369,15 +369,15 @@ const reducerMap: {
     ...state,
     ...action.payload,
   }),
-}
+};
 
 const reducer = (state: WorkflowEditorState, action): WorkflowEditorState => {
   if (reducerMap[action.type]) {
-    return reducerMap[action.type](state, action)
+    return reducerMap[action.type](state, action);
   }
 
-  return state
-}
+  return state;
+};
 
 // const GQL_LIST_ACTIONS = gql`
 //   query fetchActionsList($length: Int!) {
@@ -396,7 +396,7 @@ const reducer = (state: WorkflowEditorState, action): WorkflowEditorState => {
 // `
 
 interface WorkflowEditorProps {
-  readonly defaultValue: string
+  readonly defaultValue: string;
 }
 
 const WorkflowEditor: React.SFC<WorkflowEditorProps> = ({ defaultValue }) => {
@@ -406,69 +406,63 @@ const WorkflowEditor: React.SFC<WorkflowEditorProps> = ({ defaultValue }) => {
         edges: [
           {
             node: {
-              id: 'now',
-              icon: 'cloud',
-              name: 'GitHub Action for now',
-              description: 'Wraps the npm CLI to enable common npm commands.',
-              color: '#333',
+              id: "now",
+              icon: "cloud",
+              name: "GitHub Action for now",
+              description: "Wraps the npm CLI to enable common npm commands.",
+              color: "#333",
             },
           },
           {
             node: {
-              id: 'npm',
-              icon: 'package',
-              name: 'GitHub Action for npm',
-              description: 'Wraps the npm CLI to enable common npm commands.',
-              color: 'red',
+              id: "npm",
+              icon: "package",
+              name: "GitHub Action for npm",
+              description: "Wraps the npm CLI to enable common npm commands.",
+              color: "red",
             },
           },
         ],
       },
     },
-  }
-  const { actionsMap } = useMemo(
-    () => {
-      const map: { [id: string]: Action } = {}
-      const list = listActionsQuery.data.listActions.edges.map(edge => {
-        const action = {
-          ...edge.node,
-          id: `actions/${edge.node.id}`,
-        }
+  };
+  const { actionsMap } = useMemo(() => {
+    const map: { [id: string]: Action } = {};
+    const list = listActionsQuery.data.listActions.edges.map((edge) => {
+      const action = {
+        ...edge.node,
+        id: `actions/${edge.node.id}`,
+      };
 
-        map[action.id] = action
-        return action
-      })
+      map[action.id] = action;
+      return action;
+    });
 
-      return { actionsMap: map, actions: list }
-    },
-    [listActionsQuery.data],
-  )
+    return { actionsMap: map, actions: list };
+  }, [listActionsQuery.data]);
 
-  const memoizedValue = useMemo(
-    () => {
-      try {
-        const document = transformWorkflowASTToDocument(
-          parseWorkflow(defaultValue),
-          actionsMap,
-        )
+  const memoizedValue = useMemo(() => {
+    try {
+      const document = transformWorkflowASTToDocument(
+        parseWorkflow(defaultValue),
+        actionsMap
+      );
 
-        return {
-          document,
-        }
-      } catch (error) {
-        return {
-          parserError: error,
-        }
-      }
-    },
-    [defaultValue],
-  )
+      return {
+        document,
+      };
+    } catch (error) {
+      return {
+        parserError: error,
+      };
+    }
+  }, [defaultValue]);
 
   const [state, dispatch] = useReducer<WorkflowEditorState, any>(reducer, {
     ...memoizedValue,
     value: defaultValue,
     panel: WorkflowEditorPanel.Preview,
-  })
+  });
 
   return (
     <div className={s.container}>
@@ -476,13 +470,12 @@ const WorkflowEditor: React.SFC<WorkflowEditorProps> = ({ defaultValue }) => {
         <span className={s.error}>{state.parserError.message}</span>
       )}
       <WorkflowEditorHeader state={state} dispatch={dispatch} />
-      <div className={s.sidebar} />
       <div className={s.body}>
         {!state.parserError && state.panel === WorkflowEditorPanel.Preview && (
           <WorkflowPreview
-            ref={ref => {
+            ref={(ref) => {
               if (ref !== state.containerRef && ref) {
-                dispatch({ type: 'SET_CONTAINER_REF', payload: ref })
+                dispatch({ type: "SET_CONTAINER_REF", payload: ref });
               }
             }}
             state={state}
@@ -498,9 +491,9 @@ const WorkflowEditor: React.SFC<WorkflowEditorProps> = ({ defaultValue }) => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-WorkflowEditor.displayName = 'WorkflowEditor'
+WorkflowEditor.displayName = "WorkflowEditor";
 
-export default WorkflowEditor
+export default WorkflowEditor;

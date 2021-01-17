@@ -1,16 +1,16 @@
-import { NextStatelessComponent } from 'next'
-import * as React from 'react'
-import WorkflowEditor from '~/components/WorkflowEditor'
+import { NextStatelessComponent } from "next";
+import * as React from "react";
+import WorkflowEditor from "~/components/WorkflowEditor";
 
 interface HomePageProps {
-  value: string
+  value: string;
 }
 
 const HomePage: NextStatelessComponent<HomePageProps> = ({ value }) => (
   <WorkflowEditor defaultValue={value} />
-)
+);
 
-HomePage.displayName = 'HomePage'
+HomePage.displayName = "HomePage";
 HomePage.getInitialProps = async (): Promise<HomePageProps> => {
   return {
     value: `
@@ -20,9 +20,9 @@ workflow "New workflow" {
 
 action "Hello World" {
   needs = "New workflow"
-  uses = "actions/npm"
+  uses = "actions/now"
   env = {
-    MY_NAME = "Mona HUASHUS"
+    Foo = "BAR"
   }
   args = "\\"Hello, I'm $MY_NAME!\\""
 }
@@ -45,7 +45,7 @@ action B {
   args = "\\"Hello, I'm $MY_NAME!\\""
 }
 
-action Yzapapap {
+action C {
   needs = "Hello World"
   uses = "actions/npm"
   env = {
@@ -55,7 +55,7 @@ action Yzapapap {
 }
 
     `.trim(),
-  }
-}
+  };
+};
 
-export default HomePage
+export default HomePage;

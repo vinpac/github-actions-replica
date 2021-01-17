@@ -1,12 +1,11 @@
-import { css } from 'astroturf'
-import * as React from 'react'
-import Icon from '../Icon'
-import { WorkflowEditorPanel, WorkflowEditorState } from './WorkflowEditor'
+import { css } from "astroturf";
+import * as React from "react";
+import Icon from "../Icon";
+import { WorkflowEditorPanel, WorkflowEditorState } from "./WorkflowEditor";
 
 const s = css`
   .container {
     height: var(--workflow-header-height);
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
     background: #24292e;
     position: relative;
     z-index: 1000;
@@ -41,7 +40,7 @@ const s = css`
     background: #3f4950;
     color: #fff;
     height: 40px;
-    padding: 5px 16px;
+    padding: 0px 16px;
     font-size: 14px;
   }
 
@@ -54,18 +53,24 @@ const s = css`
 
   .pill {
     font-size: 14px;
-    background: #333;
+    background: #475058;
     color: #fff;
     border: 0;
-    border-radius: 3px;
-    padding: 6px 10px;
-    margin: 4px 0;
+    border-radius: 8px 8px 0 0;
+    padding: 11px 16px;
+    margin: 2px 0 0;
+
     cursor: pointer;
     font-weight: 500;
 
     &.active {
-      background: #0069ff;
+      background: #fff;
+      color: #242a2f;
     }
+  }
+
+  .tabPreview.active {
+    background: #ececf2 !important;
   }
 
   .run {
@@ -79,12 +84,12 @@ const s = css`
     z-index: 1000;
     font-size: 48px;
   }
-`
+`;
 
 interface WorkflowEditorHeaderProps {
-  readonly className?: string
-  readonly state: WorkflowEditorState
-  readonly dispatch: (action: any) => any
+  readonly className?: string;
+  readonly state: WorkflowEditorState;
+  readonly dispatch: (action: any) => any;
 }
 
 const WorkflowEditorHeader: React.SFC<WorkflowEditorHeaderProps> = ({
@@ -101,54 +106,36 @@ const WorkflowEditorHeader: React.SFC<WorkflowEditorHeaderProps> = ({
           />
         </svg>
       </a>
-      <button className={s.tab}>Lorem ipsum</button>
-    </div>
-    <button
-      className={`${s.run} btn btn-success`}
-      onClick={() => dispatch({ type: 'START' })}
-    >
-      <Icon name="play_arrow" />
-    </button>
-    <div className={`${s.toolbar} navbar navbar-expand navbar-dark`}>
-      <ul className="navbar-nav">
-        <li>
-          <div className="btn-group">
-            <button
-              className={`${s.pill} btn${
-                state.panel === WorkflowEditorPanel.Preview
-                  ? ` ${s.active}`
-                  : ''
-              }`}
-              onClick={() => {
-                dispatch({
-                  type: 'SET_PANEL',
-                  payload: WorkflowEditorPanel.Preview,
-                })
-              }}
-            >
-              PREVIEW
-            </button>
-            <button
-              className={`${s.pill} btn${
-                state.panel === WorkflowEditorPanel.Code ? ` ${s.active}` : ''
-              }`}
-              onClick={() =>
-                dispatch({
-                  type: 'SET_PANEL',
-                  payload: WorkflowEditorPanel.Code,
-                })
-              }
-            >
-              CODE
-            </button>
-          </div>
-        </li>
-        <li />
-      </ul>
+      <button
+        className={`${s.pill} ${s.tabPreview} btn${
+          state.panel === WorkflowEditorPanel.Preview ? ` ${s.active}` : ""
+        }`}
+        onClick={() => {
+          dispatch({
+            type: "SET_PANEL",
+            payload: WorkflowEditorPanel.Preview,
+          });
+        }}
+      >
+        PREVIEW
+      </button>
+      <button
+        className={`${s.pill} btn${
+          state.panel === WorkflowEditorPanel.Code ? ` ${s.active}` : ""
+        }`}
+        onClick={() =>
+          dispatch({
+            type: "SET_PANEL",
+            payload: WorkflowEditorPanel.Code,
+          })
+        }
+      >
+        CODE
+      </button>
     </div>
   </div>
-)
+);
 
-WorkflowEditorHeader.displayName = 'WorkflowEditorHeader'
+WorkflowEditorHeader.displayName = "WorkflowEditorHeader";
 
-export default React.memo(WorkflowEditorHeader)
+export default React.memo(WorkflowEditorHeader);

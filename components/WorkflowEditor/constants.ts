@@ -1,16 +1,16 @@
-import { css } from 'astroturf'
+import { css } from "astroturf";
 
 export interface Position {
-  x: number
-  y: number
+  x: number;
+  y: number;
 }
 
-export const MARGIN = 16
-export const CARD_WIDTH = 250
-export const CARD_HEIGHT = 200
-export const CARD_TRIGGER_HEIGHT = 100
-export const CARD_READ_ONLY_HEIGHT = 64
-export const HEADER_HEIGHT = 94
+export const MARGIN = 16;
+export const CARD_WIDTH = 250;
+export const CARD_HEIGHT = 200;
+export const CARD_TRIGGER_HEIGHT = 100;
+export const CARD_READ_ONLY_HEIGHT = 64;
+export const HEADER_HEIGHT = 48;
 
 // tslint:disable-next-line
 css`
@@ -22,4 +22,4 @@ css`
     --workflow-card-trigger-height: ${CARD_TRIGGER_HEIGHT}px;
     --workflow-card-read-only-height: ${CARD_READ_ONLY_HEIGHT}px;
   }
-`
+`;
