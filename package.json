@@ -16,7 +16,7 @@
     "apollo-link-http": "^1.5.9",
     "apollo-link-ws": "^1.0.12",
     "astroturf": "^0.8.1",
-    "codemirror": "^5.42.2",
+    "codemirror": "^5.58.2",
     "graphql": "^14.0.2",
     "graphql-tag": "^2.10.0",
     "gulp-sourcemaps": "^2.6.4",
